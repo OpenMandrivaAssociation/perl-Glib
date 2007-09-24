@@ -2,7 +2,7 @@
 
 Summary: Perl module for the glib-2.x library
 Name:    perl-%module
-Version: 1.153
+Version: 1.160
 Release: %mkrel 1
 License: GPL or Artistic
 Group:   Development/GNOME and GTK+
@@ -53,7 +53,9 @@ find -type d -name CVS | rm -rf
 
 perl Makefile.PL INSTALLDIRS=vendor
 %make OPTIMIZE="$RPM_OPT_FLAGS"
-#%make test || :
+
+%check
+#%make test
 
 %install
 rm -rf $RPM_BUILD_ROOT

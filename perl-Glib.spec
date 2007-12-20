@@ -17,6 +17,7 @@ BuildRequires: perl-devel
 BuildRequires: perl-ExtUtils-Depends >= 0.202 perl-ExtUtils-PkgConfig
 Conflicts: perl-Gtk2 <= 1
 Requires: glib2 => 2.6.3
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 This module provides perl access to Glib and GLib's GObject libraries.

@@ -14,7 +14,7 @@ Patch0: Glib-1.021-exception-trapping.patch
 URL: http://gtk2-perl.sf.net/
 BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: perl-devel
-BuildRequires: perl-ExtUtils-Depends >= 0.202 perl-ExtUtils-PkgConfig
+BuildRequires: perl-ExtUtils-Depends >= 0.300 perl-ExtUtils-PkgConfig
 Conflicts: perl-Gtk2 <= 1
 Requires: glib2 => 2.6.3
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot

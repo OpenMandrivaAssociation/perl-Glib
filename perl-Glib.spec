@@ -2,8 +2,8 @@
 
 Summary: Perl module for the glib-2.x library
 Name:    perl-%module
-Version: 1.182
-Release: %mkrel 2
+Version: 1.183
+Release: %mkrel 1
 License: GPL or Artistic
 Group:   Development/GNOME and GTK+
 # https://sourceforge.net/project/showfiles.php?group_id=64773&package_id=91217

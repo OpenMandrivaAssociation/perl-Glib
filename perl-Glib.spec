@@ -1,4 +1,5 @@
 %define module Glib
+%define Werror_cflags %nil
 
 Summary: Perl module for the glib-2.x library
 Name:    perl-%module

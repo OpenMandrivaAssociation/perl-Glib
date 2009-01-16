@@ -10,7 +10,7 @@ Group:   Development/GNOME and GTK+
 Source:  http://prdownloads.sourceforge.net/gtk2-perl/%module-%version.tar.bz2
 # BUG: we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
-Patch0: Glib-1.021-exception-trapping.patch
+Patch0: Glib-1.210-exception-trapping.patch
 URL: http://gtk2-perl.sf.net/
 BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: perl-devel

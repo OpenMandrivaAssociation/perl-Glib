@@ -1,24 +1,31 @@
-%define module Glib
+%define upstream_name    Glib
+%define upstream_version 1.223
+
 %define Werror_cflags %nil
 
+Name:       perl-%{upstream_name}
+Version:    %perl_convert_version %{upstream_version}
+Release:    %mkrel 1
+
 Summary: Perl module for the glib-2.x library
-Name:    perl-%module
-Version: 1.222
-Release: %mkrel 1
-License: GPL or Artistic
+License: GPL+ or Artistic
 Group:   Development/GNOME and GTK+
+Url:     http://gtk2-perl.sf.net/
 # https://sourceforge.net/project/showfiles.php?group_id=64773&package_id=91217
-Source:  http://prdownloads.sourceforge.net/gtk2-perl/%module-%version.tar.bz2
+Source0: http://prdownloads.sourceforge.net/gtk2-perl/%{upstream_name}-%{upstream_version}.tar.gz
 # BUG: we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0: Glib-1.210-exception-trapping.patch
-URL: http://gtk2-perl.sf.net/
+
 BuildRequires: glib2-devel >= 2.6.0
+BuildRequires: perl(ExtUtils::Depends) >= 0.300.0
+BuildRequires: perl(ExtUtils::PkgConfig)
 BuildRequires: perl-devel
-BuildRequires: perl-ExtUtils-Depends >= 0.300 perl-ExtUtils-PkgConfig
+
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
+
 Conflicts: perl-Gtk2 <= 1
-Requires: glib2 => 2.6.3
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Requires:  glib2 => 2.6.3
 
 %description
 This module provides perl access to Glib and GLib's GObject libraries.
@@ -45,7 +52,7 @@ This package contains documentation of the Glib module.
 
 
 %prep
-%setup -q -n %module-%version
+%setup -q -n %{upstream_name}-%{upstream_version}
 %patch0 -p0 -b .ex
 find -type d -name CVS | rm -rf 
 
@@ -70,18 +77,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 %doc AUTHORS LICENSE
-%dir %{perl_vendorarch}/%module/
-%{perl_vendorarch}/%{module}.pm
-%{perl_vendorarch}/%{module}/*.pm
-%{perl_vendorarch}/%{module}/*/*.pm
-%{perl_vendorarch}/%{module}/Install
+%dir %{perl_vendorarch}/%{upstream_name}/
+%{perl_vendorarch}/%{upstream_name}.pm
+%{perl_vendorarch}/%{upstream_name}/*.pm
+%{perl_vendorarch}/%{upstream_name}/*/*.pm
+%{perl_vendorarch}/%{upstream_name}/Install
 %{perl_vendorarch}/auto/*
 
 %files doc
 %defattr(-, root, root)
 %{_mandir}/*/*
-%dir %{perl_vendorarch}/%{module}
-%{perl_vendorarch}/%{module}/*.pod
-%{perl_vendorarch}/%{module}/*/*.pod
+%dir %{perl_vendorarch}/%{upstream_name}
+%{perl_vendorarch}/%{upstream_name}/*.pod
+%{perl_vendorarch}/%{upstream_name}/*/*.pod
 
 

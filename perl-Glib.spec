@@ -5,7 +5,7 @@
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 3
+Release:    %mkrel 4
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic
@@ -21,6 +21,8 @@ BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires: perl(ExtUtils::PkgConfig)
 BuildRequires: perl-devel
+# (tv) temporary build fix for 1.23x:
+BuildRequires: perl-Glib
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 

@@ -1,5 +1,5 @@
 %define upstream_name    Glib
-%define upstream_version 1.223
+%define upstream_version 1.230
 
 %define Werror_cflags %nil
 

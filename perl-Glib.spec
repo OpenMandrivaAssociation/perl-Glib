@@ -21,8 +21,6 @@ BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires: perl(ExtUtils::PkgConfig)
 BuildRequires: perl-devel
-# (tv) temporary build fix for 1.23x:
-BuildRequires: perl-Glib
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 
@@ -60,8 +58,7 @@ find -type d -name CVS | rm -rf
 
 
 %build
-
-perl Makefile.PL INSTALLDIRS=vendor
+perl -Ilib Makefile.PL INSTALLDIRS=vendor
 %make OPTIMIZE="$RPM_OPT_FLAGS"
 
 %check

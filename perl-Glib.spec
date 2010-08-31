@@ -5,7 +5,7 @@
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 6
+Release:    %mkrel 7
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic
@@ -47,6 +47,7 @@ projects.
 %package doc
 Summary: Glib documentation
 Group: Books/Computer books
+BuildArch: noarch
 
 %description doc
 This package contains documentation of the Glib module.

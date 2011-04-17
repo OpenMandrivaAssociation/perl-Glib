@@ -5,7 +5,7 @@
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 7
+Release:    %mkrel 8
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic

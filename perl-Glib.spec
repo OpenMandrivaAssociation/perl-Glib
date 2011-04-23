@@ -5,7 +5,7 @@
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 8
+Release:    %mkrel 9
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic
@@ -47,7 +47,7 @@ projects.
 %package doc
 Summary: Glib documentation
 Group: Books/Computer books
-BuildArch: noarch
+Obsoletes: %{name}-doc < 1.230.0-9
 
 %description doc
 This package contains documentation of the Glib module.
@@ -92,5 +92,3 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{perl_vendorarch}/%{upstream_name}
 %{perl_vendorarch}/%{upstream_name}/*.pod
 %{perl_vendorarch}/%{upstream_name}/*/*.pod
-
-

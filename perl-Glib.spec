@@ -1,11 +1,11 @@
 %define upstream_name    Glib
-%define upstream_version 1.230
+%define upstream_version 1.233
 
 %define Werror_cflags %nil
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 9
+Release:    %mkrel 1
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic
@@ -16,7 +16,6 @@ Source0: http://prdownloads.sourceforge.net/gtk2-perl/%{upstream_name}-%{upstrea
 # BUG: we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0: Glib-1.210-exception-trapping.patch
-Patch1: Glib-1.230-fix-bootstrap.diff
 
 BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: perl(ExtUtils::Depends) >= 0.300.0
@@ -56,7 +55,6 @@ This package contains documentation of the Glib module.
 %prep
 %setup -q -n %{upstream_name}-%{upstream_version}
 %patch0 -p0 -b .ex
-%patch1 -p1 -b .bs
 find -type d -name CVS | rm -rf 
 
 

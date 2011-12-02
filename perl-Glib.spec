@@ -5,7 +5,7 @@
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    %mkrel 1
+Release:    2
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic
@@ -22,10 +22,7 @@ BuildRequires: perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires: perl(ExtUtils::PkgConfig)
 BuildRequires: perl-devel
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
-
 Conflicts: perl-Gtk2 <= 1
-Requires:  glib2 => 2.6.3
 
 %description
 This module provides perl access to Glib and GLib's GObject libraries.
@@ -42,7 +39,6 @@ Together these libraries are used as the foundation for many of the libraries
 that make up the Gnome environment, and are used in many unrelated
 projects.
 
-
 %package doc
 Summary: Glib documentation
 Group: Books/Computer books
@@ -51,12 +47,10 @@ Obsoletes: %{name}-doc < 1.230.0-9
 %description doc
 This package contains documentation of the Glib module.
 
-
 %prep
 %setup -q -n %{upstream_name}-%{upstream_version}
 %patch0 -p0 -b .ex
 find -type d -name CVS | rm -rf 
-
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor
@@ -70,12 +64,7 @@ perl Makefile.PL INSTALLDIRS=vendor
 rm -rf %{buildroot}
 %makeinstall_std
 
-%clean
-rm -rf %{buildroot}
-
-
 %files
-%defattr(-, root, root)
 %doc AUTHORS LICENSE
 %dir %{perl_vendorarch}/%{upstream_name}/
 %{perl_vendorarch}/%{upstream_name}.pm
@@ -85,8 +74,8 @@ rm -rf %{buildroot}
 %{perl_vendorarch}/auto/*
 
 %files doc
-%defattr(-, root, root)
 %{_mandir}/*/*
 %dir %{perl_vendorarch}/%{upstream_name}
 %{perl_vendorarch}/%{upstream_name}/*.pod
 %{perl_vendorarch}/%{upstream_name}/*/*.pod
+

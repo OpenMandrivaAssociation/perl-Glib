@@ -1,11 +1,11 @@
 %define upstream_name    Glib
-%define upstream_version 1.233
+%define upstream_version 1.241
 
 %define Werror_cflags %nil
 
 Name:       perl-%{upstream_name}
 Version:    %perl_convert_version %{upstream_version}
-Release:    4
+Release:    1
 
 Summary: Perl module for the glib-2.x library
 License: GPL+ or Artistic

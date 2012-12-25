@@ -3,26 +3,26 @@
 
 %define Werror_cflags %nil
 
-Name:       perl-%{upstream_name}
-Version:    %perl_convert_version %{upstream_version}
-Release:    2
+Name:		perl-%{upstream_name}
+Version:	%perl_convert_version %{upstream_version}
+Release:	3
 
-Summary: Perl module for the glib-2.x library
-License: GPL+ or Artistic
-Group:   Development/GNOME and GTK+
-Url:     http://gtk2-perl.sf.net/
+Summary:	Perl module for the glib-2.x library
+License:	GPL+ or Artistic
+Group:		Development/GNOME and GTK+
+Url:		http://gtk2-perl.sf.net/
 # https://sourceforge.net/project/showfiles.php?group_id=64773&package_id=91217
-Source0: http://prdownloads.sourceforge.net/gtk2-perl/%{upstream_name}-%{upstream_version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/gtk2-perl/%{upstream_name}-%{upstream_version}.tar.gz
 # BUG: we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
-Patch0: Glib-1.210-exception-trapping.patch
+Patch0:		Glib-1.210-exception-trapping.patch
 
-BuildRequires: glib2-devel >= 2.6.0
-BuildRequires: perl(ExtUtils::Depends) >= 0.300.0
-BuildRequires: perl(ExtUtils::PkgConfig)
-BuildRequires: perl-devel
+BuildRequires:	glib2-devel >= 2.6.0
+BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
+BuildRequires:	perl(ExtUtils::PkgConfig)
+BuildRequires:	perl-devel
 
-Conflicts: perl-Gtk2 <= 1
+Conflicts:		perl-Gtk2 <= 1
 
 %description
 This module provides perl access to Glib and GLib's GObject libraries.
@@ -40,9 +40,9 @@ that make up the Gnome environment, and are used in many unrelated
 projects.
 
 %package doc
-Summary: Glib documentation
-Group: Books/Computer books
-Obsoletes: %{name}-doc < 1.230.0-9
+Summary:	Glib documentation
+Group:		Books/Computer books
+Obsoletes:	%{name}-doc < 1.230.0-9
 
 %description doc
 This package contains documentation of the Glib module.

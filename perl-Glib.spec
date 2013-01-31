@@ -1,9 +1,9 @@
 %define	modname	Glib
-%define	modver	1.241
+%define	modver	1.280
 
 Name:		perl-%{modname}
 Version:	%{perl_convert_version %{modver}}
-Release:	4
+Release:	1
 
 Summary:	Perl module for the glib-2.x library
 License:	GPL+ or Artistic
@@ -20,7 +20,7 @@ BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires:	perl(ExtUtils::PkgConfig)
 BuildRequires:	perl-devel
 
-Conflicts:	perl-Gtk2 <= 1
+Conflicts:		perl-Gtk2 <= 1
 
 %description
 This module provides perl access to Glib and GLib's GObject libraries.
@@ -37,7 +37,7 @@ Together these libraries are used as the foundation for many of the libraries
 that make up the Gnome environment, and are used in many unrelated
 projects.
 
-%package	doc
+%package doc
 Summary:	Glib documentation
 Group:		Books/Computer books
 Obsoletes:	%{name}-doc < 1.230.0-9

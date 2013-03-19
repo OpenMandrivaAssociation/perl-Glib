@@ -1,0 +1,171 @@
+perl-GTK and perl-Gtk2-Inline used to handle exceptions in callbacks, which is widely
+used by drakx.
+
+"new" XS perl-Glib/perl-Gtk2 initially did not.
+They now partially supports them: they only enable to register and run a callback
+on exceptions, but not to exit the Gtk main loop. Ie this only enables to log errors
+in callbacks, not to change the normal flow of program execution.
+By default, exceptions are still silently ignored (aka, they're just printed on the console).
+This traps quite a lot of developers...
+
+See http://markmail.org/message/mn4mfpiatetmsjjr
+https://mail.gnome.org/archives/gtk-perl-list/2003-August/msg00294.html	
+("[REGRESSION] perl exceptions in callbacks now break c/gtk+2")
+
+
+This patch adds back full support for handling exceptions in Gtk+ callbacks.
+
+When an exception happens, we exit the Gtk+ main loop if we are in such a loop.
+Then we throw the exception back.
+
+Also, we do clobber $@ ($EVAL_ERROR) with the callback exception.
+
+diff -p -up ./GClosure.xs.tv ./GClosure.xs
+--- ./GClosure.xs.tv	2012-12-17 02:04:28.034919197 +0100
++++ ./GClosure.xs	2012-12-17 03:21:59.894026866 +0100
+@@ -39,6 +39,7 @@ GPerlCallback, below.
+ 
+ #include "gperl_marshal.h"
+ #include "gperl-private.h"
++#include <dlfcn.h>
+ 
+ 
+ static void
+@@ -707,6 +708,87 @@ warn_of_ignored_exception (const char *
+ 	SvREFCNT_dec (saved_defsv);
+ }
+ 
++static void (*gtk_perl_trap_exceptions_handler) (void);
++
++glib_perl_set_execept_handler (void (*exceptions_handler) (void))
++{
++     gtk_perl_trap_exceptions_handler = exceptions_handler;
++}
++
++static SV* gtk_perl_trap_exceptions_save_errsv   = NULL;
++
++SV* glib_perl_get_execept_errsv ()
++{
++     return gtk_perl_trap_exceptions_save_errsv;
++}
++
++void glib_perl_set_execept_errsv (SV* exception)
++{
++     gtk_perl_trap_exceptions_save_errsv = exception;
++}
++
++static guint (*my_gtk_main_level) ();
++static void (*my_gtk_main_quit) ();
++static void (*my_gtk_main) ();
++
++static void handle_one_exception (void) {
++     SV * exception = glib_perl_get_execept_errsv();
++     if (exception) {
++          sv_setsv(ERRSV, exception);
++          SvREFCNT_dec(exception);
++          glib_perl_set_execept_errsv(NULL);
++          croak(Nullch);
++     }
++}
++
++static void gtk_perl_init_dl(const char*);
++void gtk_main () {
++     if (!my_gtk_main) gtk_perl_init_dl("libgtk-x11-2.0.so.0");
++     (*my_gtk_main)();
++     handle_one_exception();
++}
++
++static void generic_exceptions_handler (void) {
++     if ((*my_gtk_main_level)())
++          (*my_gtk_main_quit)();
++     else handle_one_exception();
++}
++
++static void gtk_perl_init_dl (const char *library) {
++    void *handle;
++    char *error;
++
++    handle = dlopen(library, RTLD_LAZY);
++    if (!handle) {
++        fprintf(stderr, "%s\n", dlerror());
++        exit(EXIT_FAILURE);
++    }
++    dlerror();    /* Clear any existing error */
++
++    *(void **) (&my_gtk_main) = dlsym(handle, "gtk_main");
++    if ((error = dlerror()) != NULL)  {
++        fprintf(stderr, "%s\n", error);
++        exit(EXIT_FAILURE);
++    }
++    *(void **) (&my_gtk_main_quit) = dlsym(handle, "gtk_main_quit");
++    if ((error = dlerror()) != NULL)  {
++        fprintf(stderr, "%s\n", error);
++        exit(EXIT_FAILURE);
++    }
++    *(void **) (&my_gtk_main_level) = dlsym(handle, "gtk_main_level");
++    if ((error = dlerror()) != NULL)  {
++        fprintf(stderr, "%s\n", error);
++        exit(EXIT_FAILURE);
++    }
++
++    dlclose(handle);
++}
++
++static void gperl_enable_exceptions (const char *library) {
++    gtk_perl_init_dl(library);
++    gtk_perl_trap_exceptions_handler = generic_exceptions_handler;
++}
++
+ =item void gperl_run_exception_handlers (void)
+ 
+ Invoke whatever exception handlers are installed.  You will need this if
+@@ -734,6 +799,14 @@ gperl_run_exception_handlers (void)
+ 
+ 	++in_exception_handler;
+ 
++	if (gtk_perl_trap_exceptions_handler) {
++			n_run++;
++			--in_exception_handler;
++			G_UNLOCK (exception_handlers);
++			gtk_perl_trap_exceptions_save_errsv = newSVsv(ERRSV);
++	        (*gtk_perl_trap_exceptions_handler)();
++			return;
++	} else {
+ 	/* call any registered handlers */
+ 	for (i = exception_handlers ; i != NULL ; /* in loop */) {
+ 		ExceptionHandler * h = (ExceptionHandler *) i->data;
+@@ -761,6 +834,7 @@ gperl_run_exception_handlers (void)
+ 		g_value_unset (&return_value);
+ 		++n_run;
+ 	}
++	}
+ 
+ 	--in_exception_handler;
+ 
+@@ -821,6 +895,15 @@ gperl_remove_exception_handler (class, g
+     C_ARGS:
+ 	tag
+ 
++void
++gperl_enable_exceptions2 (class)
++    CODE:
++        gperl_enable_exceptions("libgtk-x11-2.0.so.0");
++
++void
++gperl_enable_exceptions3 (class)
++    CODE:
++        gperl_enable_exceptions("libgtk-3.so.0");
+ 
+  ##
+  ## end on the native package
+diff -p -up ./gperl_marshal.h.tv ./gperl_marshal.h
+--- ./gperl_marshal.h.tv	2012-12-17 03:17:41.611401903 +0100
++++ ./gperl_marshal.h	2012-12-17 02:04:36.028529492 +0100
+@@ -203,7 +203,6 @@ See C<call_sv> in L<perlcall> for more i
+ 	SPAGAIN;						\
+ 	if (SvTRUE (ERRSV)) {					\
+ 		gperl_run_exception_handlers ();		\
+-		SvSetSV (ERRSV, save_errsv);			\
+ 		FREETMPS;					\
+ 		LEAVE;						\
+ 		return;						\

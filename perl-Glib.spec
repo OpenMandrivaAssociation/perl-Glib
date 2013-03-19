@@ -1,5 +1,5 @@
 %define	modname	Glib
-%define	modver	1.280
+%define	modver	1.290
 
 Name:		perl-%{modname}
 Version:	%{perl_convert_version %{modver}}

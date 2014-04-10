@@ -1,0 +1,1 @@
+addFilter('perl-Glib\..*devel-file-in-non-devel-package.*/usr/lib/perl5/vendor_perl/.*/Glib/')

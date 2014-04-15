@@ -23,20 +23,20 @@ Also, we do clobber $@ ($EVAL_ERROR) with the callback exception.
 diff -p -up ./GClosure.xs.tv ./GClosure.xs
 --- ./GClosure.xs.tv	2012-12-17 02:04:28.034919197 +0100
 +++ ./GClosure.xs	2012-12-17 03:21:59.894026866 +0100
-@@ -39,6 +39,7 @@ GPerlCallback, below.
+@@ -39,6 +39,9 @@ GPerlCallback, below.
  
  #include "gperl_marshal.h"
  #include "gperl-private.h"
 +#include <dlfcn.h>
++
++void (*gtk_perl_trap_exceptions_handler) (void);
  
  
  static void
-@@ -707,6 +708,87 @@ warn_of_ignored_exception (const char *
+@@ -707,6 +708,88 @@ warn_of_ignored_exception (const char *
  	SvREFCNT_dec (saved_defsv);
  }
  
-+static void (*gtk_perl_trap_exceptions_handler) (void);
-+
 +glib_perl_set_execept_handler (void (*exceptions_handler) (void))
 +{
 +     gtk_perl_trap_exceptions_handler = exceptions_handler;
@@ -69,6 +69,8 @@ diff -p -up ./GClosure.xs.tv ./GClosure.xs
 +}
 +
 +static void gtk_perl_init_dl(const char*);
++
++// Only used by Gtk2 (Gtk3 will invoke the real one directly):
 +void gtk_main () {
 +     if (!my_gtk_main) gtk_perl_init_dl("libgtk-x11-2.0.so.0");
 +     (*my_gtk_main)();
@@ -76,6 +78,7 @@ diff -p -up ./GClosure.xs.tv ./GClosure.xs
 +}
 +
 +static void generic_exceptions_handler (void) {
++     if (!glib_perl_get_execept_errsv()) return;
 +     if ((*my_gtk_main_level)())
 +          (*my_gtk_main_quit)();
 +     else handle_one_exception();
@@ -142,10 +145,20 @@ diff -p -up ./GClosure.xs.tv ./GClosure.xs
  
  	--in_exception_handler;
  
-@@ -821,6 +895,15 @@ gperl_remove_exception_handler (class, g
+@@ -821,6 +895,25 @@ gperl_remove_exception_handler (class, g
      C_ARGS:
  	tag
  
++void
++gperl_handle_one_exception (class)
++    CODE:
++        handle_one_exception();
++
++void
++gperl_generic_exceptions_handler (class)
++    CODE:
++        generic_exceptions_handler();
++
 +void
 +gperl_enable_exceptions2 (class)
 +    CODE:
@@ -161,11 +174,21 @@ diff -p -up ./GClosure.xs.tv ./GClosure.xs
 diff -p -up ./gperl_marshal.h.tv ./gperl_marshal.h
 --- ./gperl_marshal.h.tv	2012-12-17 03:17:41.611401903 +0100
 +++ ./gperl_marshal.h	2012-12-17 02:04:36.028529492 +0100
-@@ -203,7 +203,6 @@ See C<call_sv> in L<perlcall> for more i
+@@ -194,6 +194,7 @@ See C<call_sv> in L<perlcall> for more i
+ 
+ =cut
+ */
++extern void (*gtk_perl_trap_exceptions_handler) (void);
+ #define GPERL_CLOSURE_MARSHAL_CALL(flags)	\
+ 	{							\
+ 	/* copy is needed to keep the old value alive. */	\
+@@ -203,7 +203,8 @@ See C<call_sv> in L<perlcall> for more i
  	SPAGAIN;						\
  	if (SvTRUE (ERRSV)) {					\
  		gperl_run_exception_handlers ();		\
 -		SvSetSV (ERRSV, save_errsv);			\
++		if (!gtk_perl_trap_exceptions_handler)		\
++		    SvSetSV (ERRSV, save_errsv);		\
  		FREETMPS;					\
  		LEAVE;						\
  		return;						\

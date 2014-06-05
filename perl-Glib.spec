@@ -1,15 +1,16 @@
 %define	modname	Glib
-%define	modver	1.304
+%define modver 1.305
 
 Summary:	Perl module for the glib-2.x library
+
 Name:		perl-%{modname}
-Version:	%{perl_convert_version %{modver}}
-Release:	2
+Version:	%perl_convert_version %{modver}
+Release:	1
 License:	GPL+ or Artistic
 Group:		Development/GNOME and GTK+
 Url:		http://gtk2-perl.sf.net/
 # https://sourceforge.net/project/showfiles.php?group_id=64773&package_id=91217
-Source0:	http://prdownloads.sourceforge.net/gtk2-perl/%{modname}-%{modver}.tar.gz
+Source0:	http://sourceforge.net/projects/gtk2-perl/files/%{modname}/%{modver}/%{modname}-%{modver}.tar.gz
 Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
@@ -37,6 +38,7 @@ projects.
 
 %package doc
 Summary:	Glib documentation
+
 Group:		Books/Computer books
 Obsoletes:	%{name}-doc < 1.230.0-9
 
@@ -79,3 +81,4 @@ perl Makefile.PL INSTALLDIRS=vendor
 %{perl_vendorarch}/%{modname}/*.pod
 %dir %{perl_vendorarch}/%{modname}/Param
 %{perl_vendorarch}/%{modname}/Param/*.pod
+

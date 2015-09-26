@@ -17,7 +17,6 @@ Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0:		Glib-1.280-exception-trapping.patch
-Patch1:		Glib-1.313-fix.patch
 BuildRequires:	perl-devel
 BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires:	perl(ExtUtils::PkgConfig)
@@ -51,7 +50,6 @@ This package contains documentation of the Glib module.
 %prep
 %setup -qn %{modname}-%{modver}
 %patch0 -p0 -b .ex~
-%patch1 -p1
 
 %build
 perl Makefile.PL verbose INSTALLDIRS=vendor

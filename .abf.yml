@@ -1,5 +1,6 @@
 removed_sources:
   Glib-1.304.tar.gz: f66615b386f33a74eab62271dab0e09730fcf632
   Glib-1.305.tar.gz: a929f9f4eaf2d6686ac1713902840cb005ba14cb
-sources:
   Glib-1.306.tar.gz: 4a7db47c21230ff0668a76754d53079530e4bb45
+sources:
+  Glib-1.313.tar.gz: f48f7dedcb662b41fc2d968fa403d6e7d6d8078c

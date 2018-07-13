@@ -17,6 +17,7 @@ Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0:		Glib-1.280-exception-trapping.patch
+BuildRequires:	perl(Glib::ParseXSDoc)
 BuildRequires:	perl-devel
 BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires:	perl(ExtUtils::PkgConfig)

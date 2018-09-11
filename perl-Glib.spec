@@ -17,12 +17,17 @@ Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0:		Glib-1.280-exception-trapping.patch
-BuildRequires:	perl(Glib::ParseXSDoc)
+
 BuildRequires:	perl-devel
 BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires:	perl(ExtUtils::PkgConfig)
+BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	pkgconfig(glib-2.0)
 Conflicts:	perl-Gtk2 <= 1
+
+# Do not export private modules and libraries
+%{?perl_default_filter}
+%global __provides_exclude %{?__provides_exclude:%__provides_exclude|}^perl\\(MY\\)
 
 %description
 This module provides perl access to Glib and GLib's GObject libraries.
@@ -53,16 +58,18 @@ This package contains documentation of the Glib module.
 %patch0 -p0 -b .ex~
 
 %build
-perl Makefile.PL verbose INSTALLDIRS=vendor
-%make
-
+# fix build with modules from ./lib/:
+export PERL_USE_UNSAFE_INC=1
+perl Makefile.PL INSTALLDIRS=vendor
+%define _disable_ld_no_undefined 1
+%make_build OPTIMIZE="$RPM_OPT_FLAGS" OTHERLDFLAGS="%{?ldflags}" PERL_ARCHIVE_AFTER="-lpthread"
 
 %check
 # disabled due to long time faillures
 #%make test
 
 %install
-%makeinstall_std
+%make_install
 
 %files
 %doc AUTHORS LICENSE

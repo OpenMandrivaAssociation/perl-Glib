@@ -57,6 +57,9 @@ This package contains documentation of the Glib module.
 %setup -qn %{modname}-%{modver}
 %patch0 -p0 -b .ex~
 
+# disable build dependency on perl-podlators
+sed -i- '/MAN3PODS/d' Makefile.PL
+
 %build
 # fix build with modules from ./lib/:
 export PERL_USE_UNSAFE_INC=1

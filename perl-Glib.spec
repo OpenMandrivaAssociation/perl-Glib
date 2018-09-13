@@ -63,7 +63,7 @@ sed -i- '/MAN3PODS/d' Makefile.PL
 %build
 # fix build with modules from ./lib/:
 export PERL_USE_UNSAFE_INC=1
-perl Makefile.PL INSTALLDIRS=vendor
+%__perl Makefile.PL INSTALLDIRS=vendor
 %define _disable_ld_no_undefined 1
 %make_build OPTIMIZE="$RPM_OPT_FLAGS" OTHERLDFLAGS="%{?ldflags}" PERL_ARCHIVE_AFTER="-lpthread"
 

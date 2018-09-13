@@ -23,6 +23,7 @@ BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires:	perl(ExtUtils::PkgConfig)
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	perl(Storable)
+BuildRequires:	perl(Test::More)
 BuildRequires:	pkgconfig(glib-2.0)
 Conflicts:	perl-Gtk2 <= 1
 

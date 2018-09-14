@@ -25,6 +25,7 @@ BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	perl(Storable)
 BuildRequires:	perl(Test::More)
 BuildRequires:	pkgconfig(glib-2.0)
+Obsoletes:  perl-Glib-doc < 1.327
 Conflicts:	perl-Gtk2 <= 1
 
 # Do not export private modules and libraries
@@ -45,15 +46,6 @@ system.
 Together these libraries are used as the foundation for many of the libraries
 that make up the Gnome environment, and are used in many unrelated
 projects.
-
-%package doc
-Summary:	Glib documentation
-
-Group:		Books/Computer books
-Obsoletes:	%{name}-doc < 1.230.0-9
-
-%description	doc
-This package contains documentation of the Glib module.
 
 %prep
 %setup -qn %{modname}-%{modver}
@@ -90,10 +82,3 @@ export PERL_USE_UNSAFE_INC=1
 %dir %{perl_vendorarch}/%{modname}/Object
 %{perl_vendorarch}/%{modname}/Object/Subclass.pm
 %{perl_vendorarch}/auto/*
-
-%files doc
-%{_mandir}/*/*
-%dir %{perl_vendorarch}/%{modname}
-%{perl_vendorarch}/%{modname}/*.pod
-%dir %{perl_vendorarch}/%{modname}/Param
-%{perl_vendorarch}/%{modname}/Param/*.pod

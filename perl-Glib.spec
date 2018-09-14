@@ -1,4 +1,4 @@
-%define	modname	Glib
+%define modname Glib
 %define modver 1.327
 %define _disable_rebuild_configure 1
 %define _disable_lto 1
@@ -69,7 +69,7 @@ export PERL_USE_UNSAFE_INC=1
 %make_install
 
 # (tpg) get rid of docs
-rm -rf %{perl_vendorarch}/%{modname}/*.pod
+rm -rf %{buildroot}%{perl_vendorarch}/%{modname}/*.pod
 rm -rf %{buildroot}%{_mandir}/man3
 
 %files

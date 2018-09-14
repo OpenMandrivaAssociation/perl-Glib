@@ -68,6 +68,10 @@ export PERL_USE_UNSAFE_INC=1
 %install
 %make_install
 
+# (tpg) get rid of docs
+rm -rf %{perl_vendorarch}/%{modname}/*.pod
+rm -rf %{buildroot}%{_mandir}/man3
+
 %files
 %doc AUTHORS LICENSE
 %dir %{perl_vendorarch}/%{modname}/

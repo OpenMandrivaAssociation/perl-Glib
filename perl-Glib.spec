@@ -1,5 +1,5 @@
 %define modname Glib
-%define modver 1.327
+%define modver 1.328
 %define _disable_rebuild_configure 1
 %define _disable_lto 1
 
@@ -7,7 +7,7 @@ Summary:	Perl module for the glib-2.x library
 
 Name:		perl-%{modname}
 Version:	%perl_convert_version %{modver}
-Release:	2
+Release:	1
 License:	GPL+ or Artistic
 Group:		Development/GNOME and GTK+
 Url:		http://gtk2-perl.sf.net/

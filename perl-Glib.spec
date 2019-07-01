@@ -61,10 +61,6 @@ export PERL_USE_UNSAFE_INC=1
 %define _disable_ld_no_undefined 1
 %make_build OPTIMIZE="$RPM_OPT_FLAGS" OTHERLDFLAGS="%{?ldflags}" PERL_ARCHIVE_AFTER="-lpthread -ldl"
 
-%check
-# disabled due to long time faillures
-#%make test
-
 %install
 %make_install
 

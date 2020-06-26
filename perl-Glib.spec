@@ -1,5 +1,5 @@
 %define modname Glib
-%define modver 1.3292
+%define modver 1.3293
 %define _disable_rebuild_configure 1
 %define _disable_lto 1
 

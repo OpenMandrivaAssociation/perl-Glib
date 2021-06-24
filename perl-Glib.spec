@@ -4,7 +4,6 @@
 %define _disable_lto 1
 
 Summary:	Perl module for the glib-2.x library
-
 Name:		perl-%{modname}
 Version:	%perl_convert_version %{modver}
 Release:	1
@@ -25,7 +24,7 @@ BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	perl(Storable)
 BuildRequires:	perl(Test::More)
 BuildRequires:	pkgconfig(glib-2.0)
-Obsoletes:  perl-Glib-doc < 1.327
+Obsoletes:	perl-Glib-doc < 1.327
 Conflicts:	perl-Gtk2 <= 1
 
 # Do not export private modules and libraries
@@ -59,7 +58,7 @@ sed -i- '/MAN3PODS/d' Makefile.PL
 export PERL_USE_UNSAFE_INC=1
 %__perl -I ./lib/ Makefile.PL INSTALLDIRS=vendor
 %define _disable_ld_no_undefined 1
-%make_build OPTIMIZE="$RPM_OPT_FLAGS" OTHERLDFLAGS="%{?ldflags}" PERL_ARCHIVE_AFTER="-lpthread -ldl"
+%make_build OPTIMIZE="%{optflags}" OTHERLDFLAGS="%{build_ldflags}" PERL_ARCHIVE_AFTER="-lpthread -ldl"
 
 %install
 %make_install
@@ -82,3 +81,4 @@ rm -rf %{buildroot}%{_mandir}/man3
 %dir %{perl_vendorarch}/%{modname}/Object
 %{perl_vendorarch}/%{modname}/Object/Subclass.pm
 %{perl_vendorarch}/auto/*
+

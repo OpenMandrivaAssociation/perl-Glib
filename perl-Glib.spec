@@ -1,12 +1,11 @@
 %define modname Glib
 %define modver 1.3293
 %define _disable_rebuild_configure 1
-%define _disable_lto 1
 
 Summary:	Perl module for the glib-2.x library
 Name:		perl-%{modname}
 Version:	%perl_convert_version %{modver}
-Release:	3
+Release:	4
 License:	GPL+ or Artistic
 Group:		Development/GNOME and GTK+
 Url:		http://gtk2-perl.sf.net/
@@ -16,6 +15,7 @@ Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0:		Glib-1.280-exception-trapping.patch
+Patch1:		perl-Glib-1.3293-compile.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0

@@ -1,0 +1,12 @@
+diff -up Glib-1.3293/GClosure.xs.omv~ Glib-1.3293/GClosure.xs
+--- Glib-1.3293/GClosure.xs.omv~	2023-07-08 21:35:26.670349045 +0200
++++ Glib-1.3293/GClosure.xs	2023-07-08 21:35:36.964949403 +0200
+@@ -729,7 +729,7 @@ warn_of_ignored_exception (const char *
+ 	SvREFCNT_dec (saved_defsv);
+ }
+ 
+-glib_perl_set_execept_handler (void (*exceptions_handler) (void))
++void glib_perl_set_execept_handler (void (*exceptions_handler) (void))
+ {
+      gtk_perl_trap_exceptions_handler = exceptions_handler;
+ }

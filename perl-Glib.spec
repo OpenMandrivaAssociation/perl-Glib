@@ -15,7 +15,6 @@ Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
 Patch0:		Glib-1.280-exception-trapping.patch
-Patch1:		perl-Glib-1.3293-compile.patch
 
 BuildRequires:	perl-devel
 BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
@@ -47,8 +46,7 @@ that make up the Gnome environment, and are used in many unrelated
 projects.
 
 %prep
-%setup -qn %{modname}-%{modver}
-%patch0 -p0 -b .ex~
+%autosetup -p1 -n %{modname}-%{modver}
 
 # disable build dependency on perl-podlators
 sed -i- '/MAN3PODS/d' Makefile.PL

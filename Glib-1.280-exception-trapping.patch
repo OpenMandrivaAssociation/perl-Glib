@@ -20,9 +20,9 @@ Then we throw the exception back.
 
 Also, we do clobber $@ ($EVAL_ERROR) with the callback exception.
 
-diff -p -up ./GClosure.xs.tv ./GClosure.xs
---- ./GClosure.xs.tv	2012-12-17 02:04:28.034919197 +0100
-+++ ./GClosure.xs	2012-12-17 03:21:59.894026866 +0100
+diff -p -up perl-Glib/GClosure.xs.tv perl-Glib/GClosure.xs
+--- perl-Glib/GClosure.xs.tv	2012-12-17 02:04:28.034919197 +0100
++++ perl-Glib/GClosure.xs	2012-12-17 03:21:59.894026866 +0100
 @@ -39,6 +39,9 @@ GPerlCallback, below.
  
  #include "gperl_marshal.h"
@@ -37,7 +37,7 @@ diff -p -up ./GClosure.xs.tv ./GClosure.xs
  	SvREFCNT_dec (saved_defsv);
  }
  
-+glib_perl_set_execept_handler (void (*exceptions_handler) (void))
++void glib_perl_set_execept_handler (void (*exceptions_handler) (void))
 +{
 +     gtk_perl_trap_exceptions_handler = exceptions_handler;
 +}

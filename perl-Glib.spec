@@ -16,6 +16,7 @@ Source1:	%{name}.rpmlintrc
 # we should just horribly die in that case
 Patch0:		Glib-1.280-exception-trapping.patch
 
+BuildRequires:	make
 BuildRequires:	perl-devel
 BuildRequires:	perl(ExtUtils::Depends) >= 0.300.0
 BuildRequires:	perl(ExtUtils::PkgConfig)

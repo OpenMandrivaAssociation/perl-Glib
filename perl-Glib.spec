@@ -1,16 +1,16 @@
 %define modname Glib
-%define modver 1.3293
+%define modver 1.3294
 %define _disable_rebuild_configure 1
 
 Summary:	Perl module for the glib-2.x library
 Name:		perl-%{modname}
-Version:	%perl_convert_version %{modver}
-Release:	7
+Version:	%{modver}
+Release:	1
 License:	GPL+ or Artistic
 Group:		Development/GNOME and GTK+
 Url:		https://gtk2-perl.sf.net/
 # https://sourceforge.net/project/showfiles.php?group_id=64773&package_id=91217
-Source0:	http://sourceforge.net/projects/gtk2-perl/files/%{modname}/%{modver}/%{modname}-%{modver}.tar.gz
+Source0:	https://cpan.metacpan.org/authors/id/X/XA/XAOC/Glib-%{modver}.tar.gz
 Source1:	%{name}.rpmlintrc
 # BUG:	we do not hanble exceptions out of Gtk2->main loop
 # we should just horribly die in that case
